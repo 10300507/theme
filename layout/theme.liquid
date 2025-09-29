@@ -1,30 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page_title }} - {{ shop.name }}</title>
-    <meta name="description" content="{{ shop.meta_description }}">
-    <meta name="keywords" content="{{ shop.keywords }}">
-    <link rel="stylesheet" href="{{ 'styles.css' | asset_url }}">
-    <script src="{{ 'scripts.js' | asset_url }}" defer></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% if page_title %}{{ page_title }} — {% endif %}{{ shop.name }}</title>
+    <meta name="description" content="{{ shop.meta_description }}" />
+    {{ 'styles.css' | asset_url | stylesheet_tag }}
     {{ content_for_header }}
-</head>
-<body>
-    <header>
-        <h1>{{ shop.name }}</h1>
-        {{ 'header' | section }}
-    </header>
-    
-    <main>
-        {{ content_for_layout }}
+  </head>
+
+  <body>
+    {% section 'header' %}
+    <main id="MainContent" role="main">
+      {{ content_for_layout }}
     </main>
-    
-    <footer>
-        {{ 'footer' | section }}
-        <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
-    </footer>
-    
+    {% section 'footer' %}
+
+    {{ 'theme.js' | asset_url | script_tag }}
     {{ content_for_footer }}
-</body>
+  </body>
 </html>
