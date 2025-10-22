@@ -1,0 +1,93 @@
+{% comment %}
+  Ebook Card Snippet
+  Reusable card component for displaying ebooks
+  Usage: {% render 'ebook-card', product: product %}
+{% endcomment %}
+
+<div class="enterprise-product-card ebook-card">
+  <a href="{{ product.url }}" class="card-link">
+    <div class="card-image-wrapper">
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: '400x' }}" 
+             alt="{{ product.featured_image.alt | escape }}" 
+             class="enterprise-product-image ebook-cover-image"
+             loading="lazy">
+      {% else %}
+        <div class="placeholder-cover">
+          <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+      {% endif %}
+      
+      {% if product.compare_at_price > product.price %}
+        <span class="card-badge sale-badge">
+          SAVE {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
+        </span>
+      {% endif %}
+
+      <div class="card-overlay">
+        <span class="quick-view-text">View Details</span>
+      </div>
+    </div>
+
+    <div class="card-content">
+      <h3 class="card-title">{{ product.title }}</h3>
+      
+      {% if product.vendor != blank %}
+        <p class="card-author">by {{ product.vendor }}</p>
+      {% endif %}
+
+      <div class="card-formats">
+        <span class="format-icon" title="PDF">📄</span>
+        <span class="format-icon" title="EPUB">📱</span>
+        <span class="format-icon" title="MOBI">📖</span>
+      </div>
+
+      <div class="card-meta">
+        {% if product.metafields.custom.pages %}
+          <span class="meta-item">{{ product.metafields.custom.pages }} pages</span>
+        {% endif %}
+        {% if product.metafields.custom.rating %}
+          <span class="meta-item">⭐ {{ product.metafields.custom.rating }}/5</span>
+        {% endif %}
+      </div>
+
+      <div class="card-price">
+        {% if product.compare_at_price > product.price %}
+          <span class="price-compare">{{ product.compare_at_price | money }}</span>
+          <span class="price-sale">{{ product.price | money }}</span>
+        {% else %}
+          <span class="price-regular">{{ product.price | money }}</span>
+        {% endif %}
+      </div>
+
+      {% if product.description != blank %}
+        <p class="card-description">
+          {{ product.description | strip_html | truncate: 100 }}
+        </p>
+      {% endif %}
+    </div>
+  </a>
+
+  <div class="card-actions">
+    {% if product.available %}
+      <form action="/cart/add" method="post" class="card-add-form">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button type="submit" class="enterprise-btn btn-add-cart">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          Add to Cart
+        </button>
+      </form>
+    {% else %}
+      <button class="enterprise-btn btn-unavailable" disabled>
+        Out of Stock
+      </button>
+    {% endif %}
+  </div>
+</div>
