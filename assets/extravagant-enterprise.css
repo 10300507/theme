@@ -220,6 +220,71 @@ body {
   animation: pulse 1s infinite;
 }
 
+/* Store Information Page */
+.enterprise-store-info {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.enterprise-store-info h2 {
+  font-size: 2.5rem;
+  color: var(--enterprise-red);
+  text-align: center;
+  margin-bottom: 3rem;
+  font-weight: bold;
+}
+
+.enterprise-about-section {
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  background: var(--enterprise-white);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(220, 20, 60, 0.1);
+  transition: var(--transition);
+}
+
+.enterprise-about-section:hover {
+  box-shadow: var(--enterprise-shadow);
+  transform: translateY(-5px);
+}
+
+.enterprise-about-section h3 {
+  color: var(--enterprise-red);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--enterprise-accent);
+  padding-bottom: 0.5rem;
+}
+
+.enterprise-about-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--enterprise-black);
+  margin-bottom: 1rem;
+}
+
+.enterprise-about-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.enterprise-about-section ul li {
+  padding: 0.75rem 0;
+  padding-left: 2rem;
+  position: relative;
+  font-size: 1.1rem;
+}
+
+.enterprise-about-section ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--enterprise-red);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
 /* Footer */
 .enterprise-footer {
   background: linear-gradient(135deg, var(--enterprise-dark-red), var(--enterprise-red));
