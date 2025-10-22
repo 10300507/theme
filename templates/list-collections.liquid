@@ -1,0 +1,177 @@
+{% comment %}
+  Ebook Store - List Collections Template
+  Displays all available collections
+{% endcomment %}
+
+<div class="collections-list-page">
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Browse All Categories</h1>
+      <p class="page-subtitle">Explore our complete collection of ebook categories</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="collections-grid">
+      {% for collection in collections %}
+        {% if collection.all_products_count > 0 %}
+          <a href="{{ collection.url }}" class="collection-card-large">
+            {% if collection.image %}
+              <div class="collection-image">
+                <img src="{{ collection.image | img_url: '400x' }}" alt="{{ collection.title | escape }}">
+              </div>
+            {% else %}
+              <div class="collection-placeholder">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+              </div>
+            {% endif %}
+            
+            <div class="collection-info">
+              <h2 class="collection-name">{{ collection.title }}</h2>
+              {% if collection.description != blank %}
+                <p class="collection-desc">{{ collection.description | strip_html | truncate: 120 }}</p>
+              {% endif %}
+              <div class="collection-meta">
+                <span class="collection-count">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  {{ collection.all_products_count }} {% if collection.all_products_count == 1 %}ebook{% else %}ebooks{% endif %}
+                </span>
+                <span class="collection-arrow">→</span>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+.collections-list-page {
+  padding: 2rem 0;
+}
+
+.page-header {
+  background: linear-gradient(135deg, var(--enterprise-red), var(--enterprise-accent));
+  color: var(--enterprise-white);
+  padding: 4rem 0;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  opacity: 0.95;
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.collection-card-large {
+  background: var(--enterprise-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.1);
+  transition: var(--transition);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-card-large:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--enterprise-shadow-hover);
+}
+
+.collection-image {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+}
+
+.collection-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.collection-card-large:hover .collection-image img {
+  transform: scale(1.1);
+}
+
+.collection-placeholder {
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.collection-info {
+  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-name {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--enterprise-dark-red);
+}
+
+.collection-desc {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.collection-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.collection-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--enterprise-red);
+  font-weight: 600;
+}
+
+.collection-arrow {
+  font-size: 1.5rem;
+  color: var(--enterprise-red);
+  transition: var(--transition);
+}
+
+.collection-card-large:hover .collection-arrow {
+  transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+  .collections-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

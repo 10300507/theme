@@ -1,0 +1,209 @@
+{% comment %}
+  Ebook Store - 404 Not Found Template
+  Displayed when a page is not found
+{% endcomment %}
+
+<div class="ebook-404-page">
+  <div class="container">
+    <div class="error-content">
+      <div class="error-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      
+      <h1 class="error-title">404</h1>
+      <h2 class="error-subtitle">Page Not Found</h2>
+      <p class="error-message">
+        Oops! The ebook or page you're looking for seems to have vanished into thin air.
+      </p>
+      
+      <div class="error-actions">
+        <a href="/" class="enterprise-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Go Home
+        </a>
+        <a href="/collections/all" class="enterprise-btn btn-secondary">
+          Browse Ebooks
+        </a>
+      </div>
+
+      <div class="search-from-404">
+        <p>Or search for what you're looking for:</p>
+        <form action="/search" method="get" class="search-form">
+          <input type="search" name="q" placeholder="Search for ebooks..." class="search-input">
+          <button type="submit" class="enterprise-btn">Search</button>
+        </form>
+      </div>
+
+      <div class="helpful-links">
+        <h3>Helpful Links</h3>
+        <div class="links-grid">
+          <a href="/collections/all" class="help-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>All Ebooks</span>
+          </a>
+          <a href="/collections/bestsellers" class="help-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Bestsellers</span>
+          </a>
+          <a href="/pages/contact" class="help-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Contact Us</span>
+          </a>
+          <a href="/pages/faq" class="help-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>FAQ</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.ebook-404-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+}
+
+.error-content {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.error-icon {
+  color: var(--enterprise-red);
+  margin-bottom: 2rem;
+}
+
+.error-title {
+  font-size: 8rem;
+  font-weight: bold;
+  color: var(--enterprise-red);
+  margin-bottom: 1rem;
+  line-height: 1;
+  text-shadow: 3px 3px 0 rgba(220, 20, 60, 0.2);
+}
+
+.error-subtitle {
+  font-size: 2.5rem;
+  color: var(--enterprise-dark-red);
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  font-size: 1.25rem;
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.search-from-404 {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.search-from-404 p {
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.search-from-404 .search-form {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-from-404 .search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+.helpful-links h3 {
+  color: var(--enterprise-red);
+  margin-bottom: 1.5rem;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.help-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--enterprise-white);
+  border: 2px solid var(--enterprise-red);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--enterprise-black);
+  transition: var(--transition);
+}
+
+.help-link:hover {
+  background: var(--enterprise-red);
+  color: var(--enterprise-white);
+  transform: translateY(-5px);
+  box-shadow: var(--enterprise-shadow);
+}
+
+.help-link svg {
+  color: var(--enterprise-red);
+  transition: var(--transition);
+}
+
+.help-link:hover svg {
+  color: var(--enterprise-white);
+}
+
+@media (max-width: 768px) {
+  .error-title {
+    font-size: 5rem;
+  }
+
+  .error-subtitle {
+    font-size: 1.75rem;
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>

@@ -1,0 +1,130 @@
+{% comment %}
+  Ebook Store - Page Template
+  Generic page template for content pages
+{% endcomment %}
+
+<div class="ebook-page">
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">{{ page.title }}</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-content">
+      {{ page.content }}
+    </div>
+  </div>
+</div>
+
+<style>
+.ebook-page {
+  padding: 2rem 0;
+  min-height: 60vh;
+}
+
+.page-header {
+  background: linear-gradient(135deg, var(--enterprise-red), var(--enterprise-accent));
+  color: var(--enterprise-white);
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.page-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.8;
+}
+
+.page-content h2 {
+  color: var(--enterprise-red);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.page-content h3 {
+  color: var(--enterprise-dark-red);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.page-content p {
+  margin-bottom: 1rem;
+}
+
+.page-content ul, .page-content ol {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.page-content li {
+  margin-bottom: 0.5rem;
+}
+
+.page-content a {
+  color: var(--enterprise-red);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.page-content a:hover {
+  color: var(--enterprise-dark-red);
+  text-decoration: underline;
+}
+
+.page-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.page-content blockquote {
+  border-left: 4px solid var(--enterprise-red);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: #666;
+}
+
+.page-content code {
+  background: #f5f5f5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.page-content pre {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+}
+
+.page-content th, .page-content td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.page-content th {
+  background: var(--enterprise-red);
+  color: var(--enterprise-white);
+  font-weight: 600;
+}
+
+.page-content tr:nth-child(even) {
+  background: #f9f9f9;
+}
+</style>

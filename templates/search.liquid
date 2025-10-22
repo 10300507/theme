@@ -1,0 +1,355 @@
+{% comment %}
+  Ebook Store - Search Results Template
+  Displays search results for ebooks
+{% endcomment %}
+
+<div class="ebook-search-page">
+  <div class="search-header">
+    <div class="container">
+      <h1 class="page-title">Search Results</h1>
+      {% if search.performed %}
+        <p class="search-query">
+          {% if search.results_count > 0 %}
+            Found {{ search.results_count }} {% if search.results_count == 1 %}result{% else %}results{% endif %} for "{{ search.terms }}"
+          {% else %}
+            No results found for "{{ search.terms }}"
+          {% endif %}
+        </p>
+      {% else %}
+        <p class="search-query">Enter a search term to find ebooks</p>
+      {% endif %}
+
+      <form action="/search" method="get" class="search-form-inline">
+        <input type="search" 
+               name="q" 
+               value="{{ search.terms }}" 
+               placeholder="Search for ebooks, authors, or topics..." 
+               class="search-input-large"
+               autocomplete="off">
+        <button type="submit" class="enterprise-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          Search
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    {% if search.performed %}
+      {% if search.results_count > 0 %}
+        <div class="search-results">
+          <div class="results-filters">
+            <h3>Filter Results</h3>
+            <div class="filter-group">
+              <label>
+                <input type="radio" name="result-type" value="all" checked>
+                All Results ({{ search.results_count }})
+              </label>
+              <label>
+                <input type="radio" name="result-type" value="products">
+                Ebooks Only
+              </label>
+            </div>
+          </div>
+
+          <div class="results-grid">
+            <div class="enterprise-product-grid">
+              {% for item in search.results %}
+                {% case item.object_type %}
+                  {% when 'product' %}
+                    {% render 'ebook-card', product: item %}
+                  {% when 'article' %}
+                    <div class="search-result-item">
+                      <h3>
+                        <a href="{{ item.url }}">{{ item.title }}</a>
+                      </h3>
+                      <p class="result-type">Blog Post</p>
+                      {% if item.excerpt %}
+                        <p class="result-excerpt">{{ item.excerpt | strip_html | truncate: 150 }}</p>
+                      {% endif %}
+                    </div>
+                  {% when 'page' %}
+                    <div class="search-result-item">
+                      <h3>
+                        <a href="{{ item.url }}">{{ item.title }}</a>
+                      </h3>
+                      <p class="result-type">Page</p>
+                      {% if item.content %}
+                        <p class="result-excerpt">{{ item.content | strip_html | truncate: 150 }}</p>
+                      {% endif %}
+                    </div>
+                {% endcase %}
+              {% endfor %}
+            </div>
+          </div>
+
+          {% if paginate.pages > 1 %}
+            <div class="pagination">
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="pagination-btn">← Previous</a>
+              {% endif %}
+              
+              {% for part in paginate.parts %}
+                {% if part.is_link %}
+                  <a href="{{ part.url }}" class="pagination-btn">{{ part.title }}</a>
+                {% else %}
+                  <span class="pagination-btn active">{{ part.title }}</span>
+                {% endif %}
+              {% endfor %}
+              
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="pagination-btn">Next →</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="no-results">
+          <div class="no-results-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </div>
+          <h2>No Results Found</h2>
+          <p>We couldn't find any ebooks matching "{{ search.terms }}"</p>
+          <div class="suggestions">
+            <h3>Try these tips:</h3>
+            <ul>
+              <li>Check your spelling</li>
+              <li>Use different keywords</li>
+              <li>Search for author names or book titles</li>
+              <li>Browse our <a href="/collections/all">complete catalog</a></li>
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="search-suggestions">
+        <h2>Popular Searches</h2>
+        <div class="popular-searches">
+          <a href="/search?q=fiction" class="search-tag">Fiction</a>
+          <a href="/search?q=business" class="search-tag">Business</a>
+          <a href="/search?q=self-help" class="search-tag">Self Help</a>
+          <a href="/search?q=biography" class="search-tag">Biography</a>
+          <a href="/search?q=science" class="search-tag">Science</a>
+          <a href="/search?q=history" class="search-tag">History</a>
+        </div>
+
+        <h2>Browse by Category</h2>
+        <div class="category-grid">
+          {% for collection in collections limit: 6 %}
+            {% if collection.all_products_count > 0 %}
+              <a href="{{ collection.url }}" class="category-card">
+                <div class="category-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                </div>
+                <h3>{{ collection.title }}</h3>
+                <p>{{ collection.all_products_count }} ebooks</p>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% paginate search.results by 12 %}
+{% endpaginate %}
+
+<style>
+.ebook-search-page {
+  padding: 2rem 0;
+}
+
+.search-header {
+  background: linear-gradient(135deg, var(--enterprise-red), var(--enterprise-accent));
+  color: var(--enterprise-white);
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.search-query {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.search-form-inline {
+  display: flex;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.search-input-large {
+  flex: 1;
+  min-width: 300px;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-results {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+}
+
+.results-filters {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.results-filters h3 {
+  margin-bottom: 1rem;
+  color: var(--enterprise-red);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.search-result-item {
+  background: var(--enterprise-white);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+}
+
+.search-result-item h3 {
+  margin-bottom: 0.5rem;
+}
+
+.search-result-item a {
+  color: var(--enterprise-black);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.search-result-item a:hover {
+  color: var(--enterprise-red);
+}
+
+.result-type {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.result-excerpt {
+  color: #666;
+  line-height: 1.6;
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-results-icon {
+  margin-bottom: 2rem;
+  color: #ccc;
+}
+
+.no-results h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--enterprise-dark-red);
+}
+
+.suggestions {
+  max-width: 500px;
+  margin: 2rem auto;
+  text-align: left;
+}
+
+.suggestions h3 {
+  color: var(--enterprise-red);
+  margin-bottom: 1rem;
+}
+
+.suggestions ul {
+  list-style-position: inside;
+  color: #666;
+  line-height: 2;
+}
+
+.suggestions a {
+  color: var(--enterprise-red);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.suggestions a:hover {
+  text-decoration: underline;
+}
+
+.search-suggestions {
+  padding: 2rem 0;
+}
+
+.search-suggestions h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--enterprise-red);
+}
+
+.popular-searches {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+.search-tag {
+  padding: 0.75rem 1.5rem;
+  background: var(--enterprise-white);
+  border: 2px solid var(--enterprise-red);
+  color: var(--enterprise-red);
+  text-decoration: none;
+  border-radius: 25px;
+  transition: var(--transition);
+  font-weight: 600;
+}
+
+.search-tag:hover {
+  background: var(--enterprise-red);
+  color: var(--enterprise-white);
+}
+
+@media (max-width: 768px) {
+  .search-results {
+    grid-template-columns: 1fr;
+  }
+
+  .results-filters {
+    position: static;
+  }
+}
+</style>
