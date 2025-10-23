@@ -1,0 +1,74 @@
+{% comment %}
+  Ebook Store - Collection Template
+  Displays a collection of ebooks
+{% endcomment %}
+
+<div class="ebook-collection-page">
+  <div class="collection-header">
+    <div class="container">
+      <h1 class="collection-title">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="collection-description">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+      <p class="collection-count">{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}ebook{% else %}ebooks{% endif %} available</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="collection-toolbar">
+      <div class="filter-tags">
+        {% if collection.all_tags.size > 0 %}
+          <button class="filter-btn active" data-filter="all">All Ebooks</button>
+          {% for tag in collection.all_tags %}
+            <button class="filter-btn" data-filter="{{ tag | handleize }}">{{ tag }}</button>
+          {% endfor %}
+        {% endif %}
+      </div>
+      
+      <div class="sort-options">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by" class="sort-select">
+          <option value="manual">Featured</option>
+          <option value="title-ascending">Title: A-Z</option>
+          <option value="title-descending">Title: Z-A</option>
+          <option value="price-ascending">Price: Low to High</option>
+          <option value="price-descending">Price: High to Low</option>
+          <option value="created-descending">Newest First</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="enterprise-product-grid">
+      {% for product in collection.products %}
+        {% render 'ebook-card', product: product %}
+      {% else %}
+        <p class="no-products">No ebooks found in this collection.</p>
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <div class="pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="pagination-btn">← Previous</a>
+        {% endif %}
+        
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="pagination-btn">{{ part.title }}</a>
+          {% else %}
+            <span class="pagination-btn active">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="pagination-btn">Next →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% paginate collection.products by 12 %}
+{% endpaginate %}

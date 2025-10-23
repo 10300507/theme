@@ -1,0 +1,69 @@
+{% comment %}
+  Ebook Store - Homepage Template
+  Displays featured ebooks and collections
+{% endcomment %}
+
+<div class="ebook-store-home">
+  {% section 'hero-banner' %}
+  
+  <div class="container">
+    <section class="featured-ebooks">
+      <h2 class="section-title">Featured Ebooks</h2>
+      <div class="enterprise-product-grid">
+        {% for product in collections.featured.products limit: 6 %}
+          {% render 'ebook-card', product: product %}
+        {% else %}
+          {% for product in collections.all.products limit: 6 %}
+            {% render 'ebook-card', product: product %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="ebook-categories">
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="category-grid">
+        {% for collection in collections %}
+          {% if collection.all_products_count > 0 %}
+            <a href="{{ collection.url }}" class="category-card">
+              <div class="category-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+              </div>
+              <h3>{{ collection.title }}</h3>
+              <p>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}ebook{% else %}ebooks{% endif %}</p>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="benefits-section">
+      <h2 class="section-title">Why Choose Our Ebooks?</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">📚</div>
+          <h3>Instant Access</h3>
+          <p>Download immediately after purchase. No shipping, no waiting.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">💾</div>
+          <h3>Multiple Formats</h3>
+          <p>Available in PDF, EPUB, and MOBI formats for all devices.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🔒</div>
+          <h3>Secure Downloads</h3>
+          <p>Protected links with lifetime access to your purchases.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">♻️</div>
+          <h3>Eco-Friendly</h3>
+          <p>Digital books mean zero paper waste and no carbon footprint.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

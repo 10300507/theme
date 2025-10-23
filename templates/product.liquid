@@ -1,0 +1,154 @@
+{% comment %}
+  Ebook Store - Product Template
+  Displays individual ebook details
+{% endcomment %}
+
+<div class="ebook-product-page">
+  <div class="container">
+    <div class="product-layout">
+      <div class="product-images">
+        <div class="main-image">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | img_url: '600x' }}" 
+                 alt="{{ product.featured_image.alt | escape }}"
+                 class="ebook-cover">
+          {% else %}
+            <div class="placeholder-image">
+              <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if product.images.size > 1 %}
+          <div class="thumbnail-images">
+            {% for image in product.images %}
+              <img src="{{ image | img_url: '100x' }}" 
+                   alt="{{ image.alt | escape }}"
+                   class="thumbnail {% if forloop.first %}active{% endif %}">
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="product-info">
+        <h1 class="product-title">{{ product.title }}</h1>
+        
+        {% if product.vendor != blank %}
+          <p class="product-author">by {{ product.vendor }}</p>
+        {% endif %}
+
+        <div class="product-price">
+          {% if product.compare_at_price > product.price %}
+            <span class="price-compare">{{ product.compare_at_price | money }}</span>
+            <span class="price-sale">{{ product.price | money }}</span>
+            <span class="price-badge">SAVE {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>
+          {% else %}
+            <span class="price-regular">{{ product.price | money }}</span>
+          {% endif %}
+        </div>
+
+        <div class="ebook-formats">
+          <h3>Available Formats:</h3>
+          <div class="format-badges">
+            <span class="format-badge">📄 PDF</span>
+            <span class="format-badge">📱 EPUB</span>
+            <span class="format-badge">📖 MOBI</span>
+          </div>
+        </div>
+
+        <div class="ebook-details">
+          {% if product.metafields.custom.pages %}
+            <div class="detail-item">
+              <span class="detail-label">Pages:</span>
+              <span class="detail-value">{{ product.metafields.custom.pages }}</span>
+            </div>
+          {% endif %}
+          {% if product.metafields.custom.file_size %}
+            <div class="detail-item">
+              <span class="detail-label">File Size:</span>
+              <span class="detail-value">{{ product.metafields.custom.file_size }}</span>
+            </div>
+          {% endif %}
+          {% if product.metafields.custom.language %}
+            <div class="detail-item">
+              <span class="detail-label">Language:</span>
+              <span class="detail-value">{{ product.metafields.custom.language }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% form 'product', product %}
+          <div class="product-options">
+            {% unless product.has_only_default_variant %}
+              {% for option in product.options_with_values %}
+                <div class="option-group">
+                  <label>{{ option.name }}</label>
+                  <select name="options[{{ option.name | escape }}]">
+                    {% for value in option.values %}
+                      <option value="{{ value | escape }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endfor %}
+            {% endunless %}
+          </div>
+
+          <div class="product-actions">
+            <button type="submit" name="add" class="enterprise-btn btn-add-to-cart" {% unless product.available %}disabled{% endunless %}>
+              {% if product.available %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                Add to Cart - Instant Download
+              {% else %}
+                Out of Stock
+              {% endif %}
+            </button>
+          </div>
+        {% endform %}
+
+        {% if product.metafields.custom.sample_link %}
+          <div class="sample-chapter">
+            <a href="{{ product.metafields.custom.sample_link }}" class="btn-sample" target="_blank">
+              📖 Read Free Sample Chapter
+            </a>
+          </div>
+        {% endif %}
+
+        <div class="product-description">
+          <h2>About This Ebook</h2>
+          {{ product.description }}
+        </div>
+
+        {% if product.tags.size > 0 %}
+          <div class="product-tags">
+            <h3>Tags:</h3>
+            <div class="tag-list">
+              {% for tag in product.tags %}
+                <a href="{{ collection.url }}/{{ tag | handle }}" class="tag-badge">{{ tag }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if collection.products.size > 1 %}
+      <section class="related-ebooks">
+        <h2 class="section-title">More Ebooks You Might Like</h2>
+        <div class="enterprise-product-grid">
+          {% for related_product in collection.products limit: 4 %}
+            {% unless related_product.id == product.id %}
+              {% render 'ebook-card', product: related_product %}
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </div>
+</div>
