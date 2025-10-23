@@ -1,0 +1,81 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "sections": {
+      "hero-banner": {
+        "type": "hero-banner",
+        "settings": {
+          "title": "Discover Your Next Great Read",
+          "subtitle": "Thousands of ebooks ready for instant download. Start reading in seconds."
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "12994730151769110984": {
+        "type": "shopify://apps/atlas-ai-store-builder/blocks/atlas-cart-upsells-app-embed/ff382ac5-0af5-4ea9-a13a-234e8976ca8b",
+        "disabled": false,
+        "settings": {}
+      },
+      "13768625480086291342": {
+        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": false,
+        "settings": {}
+      },
+      "16437886600928722036": {
+        "type": "shopify://apps/amote/blocks/amote/14aa5bc3-7a5d-47bd-abcb-3baaa5c02f17",
+        "disabled": false,
+        "settings": {}
+      },
+      "12060513463936427624": {
+        "type": "shopify://apps/mega-dynamic-announcement-bar/blocks/shipping-announcemnent-bar-wide/0565cf6b-b631-408c-99cc-cedbefab5a31",
+        "disabled": false,
+        "settings": {
+          "goal_ammount": 50,
+          "text_normal": "🔥 Only GOAL_AMOUNT left to get free shipping 🔥",
+          "goal_ammount_almost": 10,
+          "text_almost": "💰 Almost there! GOAL_AMOUNT left to get free shipping 💰",
+          "text_eligible": "😄 You are eligible for free shipping! 😄",
+          "text_align": "center",
+          "banner_text_font_family": "sans_serif_n4",
+          "banner_text_font_size": 16,
+          "background": "linear-gradient(90deg, rgba(8, 102, 255, 1), rgba(8, 102, 255, 1) 100%)",
+          "banner_text_color": "#FFFFFF",
+          "pattern_image_size": "cover",
+          "fit_image_text_height": false,
+          "block_height": 40,
+          "product_list": [],
+          "collection_list": []
+        }
+      },
+      "13987313001505098986": {
+        "type": "shopify://apps/cozy-antitheft/blocks/Cozy_Antitheft_Script_1.0.0/a34a1874-f183-4394-8a9a-1e3f3275f1a7",
+        "disabled": false,
+        "settings": {}
+      },
+      "12657775114333427046": {
+        "type": "shopify://apps/essential-countdown-timer/blocks/app_embed/722378e8-5a70-4eae-aa89-9e44e8e9f6de",
+        "disabled": false,
+        "settings": {}
+      },
+      "6143736321357441667": {
+        "type": "shopify://apps/tidio-live-chat-chatbots/blocks/app-embed/1002274d-fb18-4939-98f6-5f05a8deeadc",
+        "disabled": false,
+        "settings": {}
+      },
+      "14020781649437803805": {
+        "type": "shopify://apps/shopvid/blocks/app_embed/1216543a-6237-4445-a5f2-61991cd76022",
+        "disabled": true,
+        "settings": {}
+      }
+    }
+  }
+}
