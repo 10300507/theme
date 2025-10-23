@@ -1,13 +1,13 @@
 {
-  "name": "Ebook Store Theme",
-  "version": "1.0.0",
+  "name": "Ecommerce Store Theme",
+  "version": "2.0.0",
   "theme_author": "Extravagant Enterprises",
   "theme_documentation_url": "https://github.com/10300507/theme",
   "theme_support_url": "https://github.com/10300507/theme/issues",
-  "theme_version": "1.0.0",
+  "theme_version": "2.0.0",
   "settings": {
     "theme": {
-      "name": "Ebook Storefront",
+      "name": "Ecommerce Storefront",
       "role": "main"
     }
   }

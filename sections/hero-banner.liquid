@@ -1,16 +1,24 @@
 {% comment %}
   Hero Banner Section
-  Main banner for the ebook store homepage
+  Main banner for the ecommerce store homepage
 {% endcomment %}
 
 <section class="enterprise-hero ebook-hero">
   <div class="container">
     <div class="hero-content">
       <h1 class="enterprise-hero-title fade-in-up">
-        Discover Your Next Great Read
+        {% if section.settings.title != blank %}
+          {{ section.settings.title }}
+        {% else %}
+          Your Ultimate Shopping Destination
+        {% endif %}
       </h1>
       <p class="hero-subtitle fade-in-up">
-        Thousands of ebooks ready for instant download. Start reading in seconds.
+        {% if section.settings.subtitle != blank %}
+          {{ section.settings.subtitle }}
+        {% else %}
+          Discover thousands of digital and physical products. Shop with confidence.
+        {% endif %}
       </p>
       <div class="hero-features fade-in-up">
         <div class="feature-item">
@@ -19,7 +27,7 @@
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span>Instant Download</span>
+          <span>Fast Delivery</span>
         </div>
         <div class="feature-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -39,10 +47,10 @@
       </div>
       <div class="hero-cta fade-in-up">
         <a href="/collections/all" class="enterprise-btn btn-primary">
-          Browse All Ebooks
+          Shop All Products
         </a>
-        <a href="/collections/bestsellers" class="enterprise-btn btn-secondary">
-          View Bestsellers
+        <a href="/collections/featured" class="enterprise-btn btn-secondary">
+          Featured Items
         </a>
       </div>
     </div>
@@ -106,13 +114,13 @@
       "type": "text",
       "id": "title",
       "label": "Hero Title",
-      "default": "Discover Your Next Great Read"
+      "default": "Your Ultimate Shopping Destination"
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Hero Subtitle",
-      "default": "Thousands of ebooks ready for instant download. Start reading in seconds."
+      "default": "Discover thousands of digital and physical products. Shop with confidence."
     }
   ],
   "presets": [

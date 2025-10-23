@@ -1,27 +1,110 @@
 {% comment %}
-  Ebook Store - Homepage Template
-  Displays featured ebooks and collections
+  Ecommerce Store - Homepage Template
+  Displays featured products, collections, and user dashboard
 {% endcomment %}
 
-<div class="ebook-store-home">
+<div class="ecommerce-store-home">
   {% section 'hero-banner' %}
   
   <div class="container">
-    <section class="featured-ebooks">
-      <h2 class="section-title">Featured Ebooks</h2>
-      <div class="enterprise-product-grid">
-        {% for product in collections.featured.products limit: 6 %}
+    {% if customer %}
+    <section class="user-dashboard-preview">
+      <div class="dashboard-header">
+        <h2 class="section-title">Welcome back, {{ customer.first_name | default: customer.name }}!</h2>
+        <a href="/account" class="view-all-link">View Full Dashboard →</a>
+      </div>
+      <div class="dashboard-cards">
+        <div class="dashboard-card">
+          <div class="dashboard-icon">📦</div>
+          <h3>Recent Orders</h3>
+          <p class="dashboard-value">{{ customer.orders_count }}</p>
+          <a href="/account/orders" class="dashboard-link">View Orders</a>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-icon">❤️</div>
+          <h3>Wishlist</h3>
+          <p class="dashboard-value">0 items</p>
+          <a href="/pages/wishlist" class="dashboard-link">View Wishlist</a>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-icon">💰</div>
+          <h3>Total Spent</h3>
+          <p class="dashboard-value">{{ customer.total_spent | money }}</p>
+          <a href="/account" class="dashboard-link">View Details</a>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-icon">🎁</div>
+          <h3>Rewards</h3>
+          <p class="dashboard-value">Available</p>
+          <a href="/pages/rewards" class="dashboard-link">View Rewards</a>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="featured-products">
+      <h2 class="section-title">Featured Products</h2>
+      <div class="product-type-tabs">
+        <button class="tab-btn active" data-type="all">All Products</button>
+        <button class="tab-btn" data-type="digital">Digital</button>
+        <button class="tab-btn" data-type="physical">Physical</button>
+      </div>
+      <div class="enterprise-product-grid" id="productsGrid">
+        {% for product in collections.featured.products limit: 8 %}
           {% render 'ebook-card', product: product %}
         {% else %}
-          {% for product in collections.all.products limit: 6 %}
+          {% for product in collections.all.products limit: 8 %}
             {% render 'ebook-card', product: product %}
           {% endfor %}
         {% endfor %}
       </div>
     </section>
 
-    <section class="ebook-categories">
-      <h2 class="section-title">Browse by Category</h2>
+    <section class="featured-categories">
+      <h2 class="section-title">Shop by Category</h2>
+      <div class="category-showcase">
+        <div class="category-main">
+          {% assign featured_collection = collections.featured | default: collections.all %}
+          <a href="{{ featured_collection.url }}" class="category-featured">
+            {% if featured_collection.image %}
+              <img src="{{ featured_collection.image | img_url: '800x' }}" alt="{{ featured_collection.title }}">
+            {% else %}
+              <div class="category-placeholder">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <path d="M21 15l-5-5L5 21"></path>
+                </svg>
+              </div>
+            {% endif %}
+            <div class="category-overlay">
+              <h3>{{ featured_collection.title }}</h3>
+              <p>{{ featured_collection.all_products_count }} products</p>
+              <span class="category-btn">Shop Now →</span>
+            </div>
+          </a>
+        </div>
+        <div class="category-grid-small">
+          {% for collection in collections limit: 6 offset: 1 %}
+            {% if collection.all_products_count > 0 %}
+              <a href="{{ collection.url }}" class="category-card-small">
+                <div class="category-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                </div>
+                <h4>{{ collection.title }}</h4>
+                <p>{{ collection.all_products_count }} items</p>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="product-categories">
+      <h2 class="section-title">Browse All Categories</h2>
       <div class="category-grid">
         {% for collection in collections %}
           {% if collection.all_products_count > 0 %}
@@ -33,7 +116,7 @@
                 </svg>
               </div>
               <h3>{{ collection.title }}</h3>
-              <p>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}ebook{% else %}ebooks{% endif %}</p>
+              <p>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}product{% else %}products{% endif %}</p>
             </a>
           {% endif %}
         {% endfor %}
@@ -41,29 +124,62 @@
     </section>
 
     <section class="benefits-section">
-      <h2 class="section-title">Why Choose Our Ebooks?</h2>
+      <h2 class="section-title">Why Shop With Us?</h2>
       <div class="benefits-grid">
         <div class="benefit-card">
           <div class="benefit-icon">📚</div>
-          <h3>Instant Access</h3>
-          <p>Download immediately after purchase. No shipping, no waiting.</p>
+          <h3>Vast Selection</h3>
+          <p>Thousands of digital and physical products to choose from.</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">💾</div>
-          <h3>Multiple Formats</h3>
-          <p>Available in PDF, EPUB, and MOBI formats for all devices.</p>
+          <div class="benefit-icon">⚡</div>
+          <h3>Fast Delivery</h3>
+          <p>Instant digital downloads and quick shipping for physical items.</p>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon">🔒</div>
-          <h3>Secure Downloads</h3>
-          <p>Protected links with lifetime access to your purchases.</p>
+          <h3>Secure Shopping</h3>
+          <p>Protected checkout with multiple payment options available.</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">♻️</div>
-          <h3>Eco-Friendly</h3>
-          <p>Digital books mean zero paper waste and no carbon footprint.</p>
+          <div class="benefit-icon">💯</div>
+          <h3>Quality Guarantee</h3>
+          <p>All products backed by our satisfaction guarantee.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🎁</div>
+          <h3>Rewards Program</h3>
+          <p>Earn points on every purchase and get exclusive deals.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📞</div>
+          <h3>24/7 Support</h3>
+          <p>Our customer service team is always here to help.</p>
         </div>
       </div>
     </section>
   </div>
 </div>
+
+<script>
+// Product type filtering
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Update active tab
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    
+    const type = this.dataset.type;
+    const cards = document.querySelectorAll('.enterprise-product-card');
+    
+    cards.forEach(card => {
+      if (type === 'all') {
+        card.style.display = 'block';
+      } else {
+        // This would need product type metadata to work fully
+        card.style.display = 'block';
+      }
+    });
+  });
+});
+</script>

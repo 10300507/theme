@@ -1,10 +1,15 @@
 {% comment %}
-  Ebook Card Snippet
-  Reusable card component for displaying ebooks
+  Product Card Snippet
+  Reusable card component for displaying products (digital and physical)
   Usage: {% render 'ebook-card', product: product %}
 {% endcomment %}
 
-<div class="enterprise-product-card ebook-card">
+{% assign is_digital = false %}
+{% if product.tags contains 'digital' or product.tags contains 'ebook' or product.tags contains 'download' %}
+  {% assign is_digital = true %}
+{% endif %}
+
+<div class="enterprise-product-card ebook-card" data-product-type="{% if is_digital %}digital{% else %}physical{% endif %}">
   <a href="{{ product.url }}" class="card-link">
     <div class="card-image-wrapper">
       {% if product.featured_image %}
@@ -15,10 +20,20 @@
       {% else %}
         <div class="placeholder-cover">
           <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            {% if is_digital %}
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            {% else %}
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            {% endif %}
           </svg>
         </div>
+      {% endif %}
+      
+      {% if is_digital %}
+        <span class="card-badge digital-badge">Digital</span>
       {% endif %}
       
       {% if product.compare_at_price > product.price %}
@@ -39,11 +54,17 @@
         <p class="card-author">by {{ product.vendor }}</p>
       {% endif %}
 
-      <div class="card-formats">
-        <span class="format-icon" title="PDF">📄</span>
-        <span class="format-icon" title="EPUB">📱</span>
-        <span class="format-icon" title="MOBI">📖</span>
-      </div>
+      {% if is_digital %}
+        <div class="card-formats">
+          <span class="format-icon" title="PDF">📄</span>
+          <span class="format-icon" title="EPUB">📱</span>
+          <span class="format-icon" title="MOBI">📖</span>
+        </div>
+      {% else %}
+        <div class="card-shipping">
+          <span class="shipping-badge">🚚 Free Shipping</span>
+        </div>
+      {% endif %}
 
       <div class="card-meta">
         {% if product.metafields.custom.pages %}
@@ -52,6 +73,13 @@
         {% if product.metafields.custom.rating %}
           <span class="meta-item">⭐ {{ product.metafields.custom.rating }}/5</span>
         {% endif %}
+        {% unless is_digital %}
+          {% if product.available %}
+            <span class="meta-item stock-status in-stock">✓ In Stock</span>
+          {% else %}
+            <span class="meta-item stock-status out-of-stock">Out of Stock</span>
+          {% endif %}
+        {% endunless %}
       </div>
 
       <div class="card-price">
